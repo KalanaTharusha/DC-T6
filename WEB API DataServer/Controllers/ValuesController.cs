@@ -16,7 +16,6 @@ namespace WEB_API_DataServer.Controllers
         public int Count()
         {
             return _dataModel.GetCount();
-            return 0;
         }
 
         [HttpGet]
@@ -24,20 +23,6 @@ namespace WEB_API_DataServer.Controllers
         {
             List<DataIntermed> accounts = _dataModel.GetAll();
             return _dataModel.GetAll();
-        }
-
-        [HttpGet]
-        public IActionResult Entry()
-        {
-            DataIntermed result = new DataIntermed();
-            result.Pin = 1111;
-            result.Balance = 2423435;
-            result.AcctNo = 948587468;
-            result.FirstName = "Kalana";
-            result.LastName = "Tharusha";
-            result.Bitmap = "This should be a bitmap";
-
-            return new ObjectResult(result);
         }
 
     }
