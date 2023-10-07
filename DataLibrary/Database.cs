@@ -19,9 +19,15 @@ namespace DataLibrary
 
             for (int i = 0; i < 1000; i++)
             {
-                databaseGenerator.GetNextAccount(out uint pin, out uint accNo, out string firstName, out string lastName, out int balance, out Bitmap bitmap);
+                DataIntermed data = new DataIntermed();
+                databaseGenerator.GetNextAccount(out uint pin, out uint acctNo, out string firstName, out string lastName, out int balance, out string bitmap);
+                data.AcctNo = acctNo;
+                data.FirstName = firstName;
+                data.LastName = lastName;
+                data.Balance = balance;
+                data.Pin = pin;
+                data.Bitmap = bitmap;
 
-                DataIntermed data = new DataIntermed(pin, accNo, firstName, lastName, balance, bitmap);
                 dataList.Add(data);
             }
 
@@ -31,7 +37,7 @@ namespace DataLibrary
         {
             try
             {
-                return dataList[index].acctNo;
+                return dataList[index].AcctNo;
             }
             catch (IndexOutOfRangeException)
             {
@@ -42,7 +48,7 @@ namespace DataLibrary
         {
             try
             {
-                return dataList[index].pin;
+                return dataList[index].Pin;
             }
             catch (IndexOutOfRangeException)
             {
@@ -53,7 +59,7 @@ namespace DataLibrary
         {
             try
             {
-                return dataList[index].firstName;
+                return dataList[index].FirstName;
             }
             catch (IndexOutOfRangeException)
             {
@@ -64,7 +70,7 @@ namespace DataLibrary
         {
             try
             {
-                return dataList[index].lastName;
+                return dataList[index].LastName;
             }
             catch (IndexOutOfRangeException)
             {
@@ -75,23 +81,28 @@ namespace DataLibrary
         {
             try
             {
-                return dataList[index].balance;
+                return dataList[index].Balance;
             }
             catch (IndexOutOfRangeException)
             {
                 throw new IndexOutOfRangeException();
             }
         }
-        public Bitmap GetBitmapByIndex(int index)
+        public string GetBitmapByIndex(int index)
         {
             try
             {
-                return dataList[index].bitmap;
+                return dataList[index].Bitmap;
             }
             catch (IndexOutOfRangeException)
             {
                 throw new IndexOutOfRangeException();
             }
+        }
+        
+        public List<DataIntermed> GetAll()
+        {
+            return dataList;
         }
         public int GetNumRecords()
         {

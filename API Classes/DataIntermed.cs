@@ -9,32 +9,22 @@ namespace API_Classes
 {
     public class DataIntermed
     {
-        public uint acctNo;
-        public uint pin;
-        public int balance;
-        public string firstName;
-        public string lastName;
-        public Bitmap bitmap;
+        public uint AcctNo { get; set; }
+        public uint Pin { get; set; }
+        public int Balance { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Bitmap { get; set; }
 
-        public DataIntermed()
-        {
-            acctNo = 0;
-            pin = 0;
-            balance = 0;
-            firstName = "";
-            lastName = "";
-            bitmap = null;
-        }
-
-        public DataIntermed(uint pin, uint acctNo, string firstName, string lastName, int balance, Bitmap bitmap)
-        {
-            this.pin = pin;
-            this.acctNo = acctNo;
-            this.firstName = firstName;
-            this.lastName = lastName;
-            this.balance = balance;
-            this.bitmap = bitmap;
-        }
+        //public DataIntermed(uint pin, uint acctNo, string firstName, string lastName, int balance, string bitmap)
+        //{
+        //    this.pin = pin;
+        //    this.acctNo = acctNo;
+        //    this.firstName = firstName;
+        //    this.lastName = lastName;
+        //    this.balance = balance;
+        //    this.bitmap = bitmap;
+        //}
     }
 
 }
