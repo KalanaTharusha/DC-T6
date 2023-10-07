@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace API_Classes
 {
-    public class Class1
+    public class SearchData
     {
+        public string searchStr;
     }
 }
