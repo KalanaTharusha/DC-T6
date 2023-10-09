@@ -1,34 +1,47 @@
 ﻿using API_Classes;
 using Microsoft.AspNetCore.Mvc;
-using WEB_API_BusinessTier.Models;
+using Newtonsoft.Json;
+using RestSharp;
 
 namespace WEB_API_BusinessTier.Controllers
 {
     public class GetValuesController : Controller
     {
-        private DataModel _dataModel;
+        private RestClient restClient;
         public GetValuesController()
         {
-            _dataModel = new DataModel();
+            restClient = new RestClient("http://localhost:5080");
         }
 
         [HttpGet]
         public int Count()
         {
-            return _dataModel.GetNumEntries();
+            RestRequest restRequest = new RestRequest("/data/size", Method.Get);
+            RestResponse restResponse = restClient.Execute(restRequest);
+
+            return int.Parse(restResponse.Content);
         }
 
         [HttpGet]
         public IEnumerable<DataIntermed> Entries()
         {
-            List<DataIntermed> accounts = _dataModel.GetAll();
-            return _dataModel.GetAll();
+            RestRequest restRequest = new RestRequest("/data/all", Method.Get);
+            RestResponse restResponse = restClient.Execute(restRequest);
+
+            IEnumerable<DataIntermed> dataIntermedList = JsonConvert.DeserializeObject<IEnumerable<DataIntermed>>(restResponse.Content);
+
+            return dataIntermedList;
         }
 
         [HttpGet]
-        public IActionResult Detail(int id)
+        public IActionResult Detail([FromQuery] int id)
         {
-            DataIntermed dataIntermed = _dataModel.GetValuesForEntry(id);
+            RestRequest restRequest = new RestRequest("/data/account?id={i}", Method.Get);
+            restRequest.AddUrlSegment("i", id);
+            RestResponse restResponse = restClient.Execute(restRequest);
+
+            DataIntermed dataIntermed = JsonConvert.DeserializeObject<DataIntermed>(restResponse.Content);
+
             if (dataIntermed == null)
             {
                 return NotFound();

@@ -42,38 +42,38 @@ namespace DataLibrary
 
         private string GetBitmap()
         {
-            //int height = 32;
-            //int width = 32;
-            //string bitmap;
+            int height = 32;
+            int width = 32;
+            string bitmap;
 
-            //Bitmap bitmapImg = new Bitmap(height, width);
+            Bitmap bitmapImg = new Bitmap(height, width);
 
-            //for (int x = 0; x < width; x++)
-            //{
-            //    for (int y = 0; y < height; y++)
-            //    {
-            //        Color color = Color.FromArgb(
-            //            random.Next(256),
-            //            random.Next(256),
-            //            random.Next(256)
-            //            );
+            for (int x = 0; x < width; x++)
+            {
+                for (int y = 0; y < height; y++)
+                {
+                    Color color = Color.FromArgb(
+                        random.Next(256),
+                        random.Next(256),
+                        random.Next(256)
+                        );
 
-            //        bitmapImg.SetPixel(x, y, color);
-            //    }
-            //}
+                    bitmapImg.SetPixel(x, y, color);
+                }
+            }
 
-            //// convert bitmap image into base64 string
-            //using (MemoryStream memoryStream = new MemoryStream())
-            //{
-            //    bitmapImg.Save(memoryStream, System.Drawing.Imaging.ImageFormat.Png);
+            // convert bitmap image into base64 string
+            using (MemoryStream memoryStream = new MemoryStream())
+            {
+                bitmapImg.Save(memoryStream, System.Drawing.Imaging.ImageFormat.Png);
 
-            //    byte[] imageBytes = memoryStream.ToArray();
+                byte[] imageBytes = memoryStream.ToArray();
 
-            //    bitmap = Convert.ToBase64String(imageBytes);
-            //}
+                bitmap = Convert.ToBase64String(imageBytes);
+            }
 
-            //return bitmap;
-            return "bitamp";
+            return bitmap;
+            //return "bitamp";
         }
 
         public void GetNextAccount(out uint pin, out uint acctNo, out string firstName, out string lastName, out int balance, out string bitmap)

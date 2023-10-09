@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using RestSharp;
 using System.Diagnostics;
 using WEB_API_BusinessTier.Models;
 
@@ -13,9 +14,13 @@ namespace WEB_API_BusinessTier.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index()
+        public int Index()
         {
-            return View();
+            RestClient restClient = new RestClient("http://localhost:5080");
+            RestRequest restRequest = new RestRequest("/data/size", Method.Get);
+            RestResponse restResponse = restClient.Execute(restRequest);
+
+            return int.Parse(restResponse.Content);
         }
 
         public IActionResult Privacy()

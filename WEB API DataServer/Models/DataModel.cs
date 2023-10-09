@@ -1,44 +1,59 @@
 ﻿using API_Classes;
 using DataLibrary;
-using DataServerInterface;
-using System.Collections.Generic;
-using System.ServiceModel;
 
 namespace WEB_API_DataServer.Models
 {
     public class DataModel
     {
         private Database _database;
-        public DataModel() 
+        public DataModel()
         {
             _database = new Database();
         }
 
-        private void Connect()
-        {
-            ChannelFactory<IDataServer> foobFactory;
-            NetTcpBinding tcp = new NetTcpBinding();
-            //tcp.MaxBufferSize = 2147483647;
-
-            string URL = "net.tcp://localhost:8000/DataService";
-            foobFactory = new ChannelFactory<IDataServer>(tcp, URL);
-            IDataServer foob = foobFactory.CreateChannel();
-        }
-
-        public int GetCount()
+        public int GetNumEntries()
         {
             return _database.GetNumRecords();
-            //Connect();
+        }
+
+        public DataIntermed GetValuesForEntry(int id)
+        {
+            DataIntermed data = new DataIntermed();
+            data.AcctNo = _database.GetAcctNoByIndex(id);
+            data.FirstName = _database.GetFirstNameByIndex(id);
+            data.LastName = _database.GetLastNameByIndex(id);
+            data.Balance = _database.GetBalanceByIndex(id);
+            data.Pin = _database.GetPINByIndex(id);
+            data.Bitmap = _database.GetBitmapByIndex(id);
+
+            return data;
+        }
+
+        public DataIntermed Search(string lastName)
+        {
+
+            int numOfEntries = _database.GetNumRecords();
+
+            for (int i = 0; i < numOfEntries; i++)
+            {
+                string currLName = GetValuesForEntry(i).LastName;
+                if (currLName.ToLower() == lastName.ToLower())
+                {
+                    //Thread.Sleep(2000);
+                    return GetValuesForEntry(i);
+
+                }
+            }
+
+            return null;
         }
 
         public List<DataIntermed> GetAll()
         {
 
             List<DataIntermed> dataList = _database.GetAll();
-            //List<DataIntermed> dataList = Connect().GetValuesForEntry();
 
             return dataList;
         }
-
     }
 }

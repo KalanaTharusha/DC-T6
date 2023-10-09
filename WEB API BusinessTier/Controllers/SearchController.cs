@@ -1,23 +1,28 @@
 ﻿using API_Classes;
 using Microsoft.AspNetCore.Mvc;
-using System.Net;
-using WEB_API_BusinessTier.Models;
+using Newtonsoft.Json;
+using RestSharp;
 
 namespace WEB_API_BusinessTier.Controllers
 {
     public class SearchController : Controller
     {
-        private DataModel _dataModel;
+        private RestClient restClient;
         public SearchController() 
         {
-            _dataModel = new DataModel();
+            restClient = new RestClient("http://localhost:5080");
         }
 
 
         [HttpPost]
         public IActionResult Search([FromBody] SearchData search)
         {
-            DataIntermed dataIntermed = _dataModel.Search(search.SearchStr);
+            RestRequest restRequest = new RestRequest("data/search", Method.Get);
+            restRequest.AddJsonBody(search);
+            RestResponse restResponse = restClient.Execute(restRequest);
+
+            DataIntermed dataIntermed = JsonConvert.DeserializeObject<DataIntermed>(restResponse.Content);
+
             if (dataIntermed == null)
             {
                 return NotFound();
